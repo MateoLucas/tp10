@@ -3,7 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/*
+ CONSIDERACIONES 
+ * se indica al puerto A como 'A', al puerto B como 'B', y al puerto D como 'D'. 
+ 
+ */
 #include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
+/*
 typedef struct
 {
     uint_least8_t b0    :1;
@@ -36,15 +44,142 @@ typedef struct
     uint_least16_t b15   :1;
     
 }bit16_t;
+*/
 
 typedef union
 {
-    bit8_t portA;
-    bit8_t portB;
-    bit16_t portD;
+    struct portAB
+    {
+    uint_least8_t portA;
+    uint_least8_t portB;
+    }portAB;
+    uint_least16_t portD;
 }portABD_t;
-
-int bitSet(int n)
+/*****************************************************************************/
+int bitSet(int n,char port)
 {
-    
+    int mask,ans = 0;int * pPort;
+    switch(port)
+    {
+        case 'A':
+            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            (uint_least8_t)mask=0x1;break;
+        case 'B':
+            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t)mask=0x1;break;
+        case 'D':
+            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t)mask=0x1;break;
+        default: 
+            ans++-;
+    }
+    if(sizeof(*pPort)>n)
+    {
+        ans++;
+    }
+    else
+    {
+        for(int i = 1;i<n;i++)
+        {
+        mask<<=1;
+        }
+        (*pPort) = (*pPort)|mask;
+    }
+    return ans;   
+}
+/******************************************************************************/
+int bitClr(int n,char port)
+{
+    int mask,ans = 0;int * pPort;
+    switch(port)
+    {
+        case 'A':
+            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            (uint_least8_t)mask=0xE;break;
+        case 'B':
+            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t)mask=0xE;break;
+        case 'D':
+            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t)mask=0xFE;break;
+        default: 
+            ans++-;
+    }
+    if(sizeof(*pPort)>n)
+    {
+        ans++;
+    }
+    else
+    {
+        for(int i = 1;i<n;i++)
+        {
+        mask<<=1;
+        }
+        (*pPort) = (*pPort)&mask;
+    }
+    return ans;   
+}
+/*****************************************************************************/
+int bitGet(int n,char port)
+{
+    int mask,ans = 0;int * pPort;
+    switch(port)
+    {
+        case 'A':
+            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            (uint_least8_t)mask=0x1;break;
+        case 'B':
+            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t)mask=0x1;break;
+        case 'D':
+            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t)mask=0x1;break;
+        default: 
+            ans--;
+    }
+    if(sizeof(*pPort)>n)//me aseguro que el numero de bit este contenido en el QUE PASA SI sizeof(void*pPort) 
+    {                               //puerto.
+        ans--;
+    }
+    else
+    {
+        for(int i = 1;i<n;i++)//acomodo la mascara
+        {
+        mask<<=1;
+        }
+        ans = (*pPort)&mask;
+    }
+    return ans; //ans<0 -> error | ans>0 -> encendido | ans == 0 -> apagado.
+}
+/******************************************************************************/
+int bitToggle(int n,char port)
+{
+    int mask,ans = 0;int * pPort;
+    switch(port)
+    {
+        case 'A':
+            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            (uint_least8_t)mask=0x1;break;
+        case 'B':
+            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t)mask=0x1;break;
+        case 'D':
+            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t)mask=0x1;break;
+        default: 
+            ans++;
+    }  
+    if(sizeof(*pPort)>n)
+    {
+        ans++;
+    }
+    if(ans == 0)
+    {
+        for(int i = 1;i<n;i++)
+        {
+        mask<<=1;
+        }
+        (*pPort)= (*pPort)^mask;
+    }
+    return ans;   
 }
