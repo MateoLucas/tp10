@@ -71,7 +71,7 @@ int bitSet(int n,char port)
             (uint_least16_t*)pPort = portABD_t.portD;
             (uint_least16_t)mask=0x1;break;
         default: 
-            ans++-;
+            ans++;
     }
     if(sizeof(*pPort)>n)
     {
@@ -114,6 +114,7 @@ int bitClr(int n,char port)
         for(int i = 1;i<n;i++)
         {
         mask<<=1;
+        mask+=1;
         }
         (*pPort) = (*pPort)&mask;
     }
