@@ -55,6 +55,8 @@ typedef union
     }portAB;
     uint_least16_t portD;
 }portABD_t;
+portABD_t ports;
+
 /*****************************************************************************/
 int bitSet(int n,char port)
 {
@@ -62,13 +64,13 @@ int bitSet(int n,char port)
     switch(port)
     {
         case 'A':
-            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            (uint_least8_t*)pPort = ports.portAB.portA;
             (uint_least8_t)mask=0x1;break;
         case 'B':
-            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t*)pPort = ports.portAB.portB;
             (uint_least8_t)mask=0x1;break;
         case 'D':
-            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t*)pPort = ports.portD;
             (uint_least16_t)mask=0x1;break;
         default: 
             ans++;
@@ -93,14 +95,18 @@ int bitClr(int n,char port)
     int mask,ans = 0;int * pPort;
     switch(port)
     {
+        case 'a':
         case 'A':
-            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            
+            (uint_least8_t*)pPort = ports.portAB.portA;
             (uint_least8_t)mask=0xE;break;
+        case 'b':
         case 'B':
-            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t*)pPort = ports.portAB.portB;
             (uint_least8_t)mask=0xE;break;
+        case 'd':
         case 'D':
-            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t*)pPort = ports.portD;
             (uint_least16_t)mask=0xFE;break;
         default: 
             ans++-;
@@ -127,13 +133,13 @@ int bitGet(int n,char port)
     switch(port)
     {
         case 'A':
-            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            (uint_least8_t*)pPort = ports.portAB.portA;
             (uint_least8_t)mask=0x1;break;
         case 'B':
-            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t*)pPort = ports.portAB.portB;
             (uint_least8_t)mask=0x1;break;
         case 'D':
-            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t*)pPort = ports.portD;
             (uint_least16_t)mask=0x1;break;
         default: 
             ans--;
@@ -159,13 +165,13 @@ int bitToggle(int n,char port)
     switch(port)
     {
         case 'A':
-            (uint_least8_t*)pPort = portABD_t.portAB.portA;
+            (uint_least8_t*)pPort = ports.portAB.portA;
             (uint_least8_t)mask=0x1;break;
         case 'B':
-            (uint_least8_t*)pPort = portABD_t.portAB.portB;
+            (uint_least8_t*)pPort = ports.portAB.portB;
             (uint_least8_t)mask=0x1;break;
         case 'D':
-            (uint_least16_t*)pPort = portABD_t.portD;
+            (uint_least16_t*)pPort = ports.portD;
             (uint_least16_t)mask=0x1;break;
         default: 
             ans++;
