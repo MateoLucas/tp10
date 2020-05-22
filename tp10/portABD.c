@@ -60,21 +60,27 @@ static portABD_t ports;
 /*****************************************************************************/
 int bitSet(int n,char port)
 {
-    int mask,ans = 0;int * pPort;
+    int mask,ans = 0;void * pPort;
     switch(port)
     {
         case 'a':
         case 'A':
-            (uint_least8_t*)pPort = ports.portAB.portA;
-            (uint_least8_t)mask=0x1;break;
+            (uint_least8_t*)pPort;
+            pPort= &(ports.portAB.portA);
+            (uint_least8_t)mask;
+            mask=0x1;break;
         case 'b':
         case 'B':
-            (uint_least8_t*)pPort = ports.portAB.portB;
-            (uint_least8_t)mask=0x1;break;
+            (uint_least8_t*)pPort;
+            pPort= &ports.portAB.portB;
+            (uint_least8_t)mask;
+            mask=0x1;break;
         case 'd':
         case 'D':
-            (uint_least16_t*)pPort = ports.portD;
-            (uint_least16_t)mask=0x1;break;
+            (uint_least16_t*)pPort;
+            pPort= &ports.portD;
+            (uint_least16_t)mask;
+            mask=0x1;break;
         default: 
             ans++;
     }
@@ -88,7 +94,7 @@ int bitSet(int n,char port)
         {
         mask<<=1;
         }
-        (*pPort) = (*pPort)|mask;
+        (*pPort) = ((*pPort)|mask);
     }
     return ans;   
 }
@@ -101,18 +107,18 @@ int bitClr(int n,char port)
         case 'a':
         case 'A':
             
-            (uint_least8_t*)pPort = ports.portAB.portA;
+            (uint_least8_t*)*pPort = ports.portAB.portA;
             (uint_least8_t)mask=0xE;break;
         case 'b':
         case 'B':
-            (uint_least8_t*)pPort = ports.portAB.portB;
+            (uint_least8_t*)*pPort = ports.portAB.portB;
             (uint_least8_t)mask=0xE;break;
         case 'd':
         case 'D':
-            (uint_least16_t*)pPort = ports.portD;
+            (uint_least16_t*)*pPort = ports.portD;
             (uint_least16_t)mask=0xFE;break;
         default: 
-            ans++-;
+            ans++;
     }
     if(sizeof(*pPort)>n)
     {
@@ -138,15 +144,15 @@ int bitGet(int n,char port)
         
         case 'a':
         case 'A':
-            (uint_least8_t*)pPort = ports.portAB.portA;
+            (uint_least8_t*)*pPort = ports.portAB.portA;
             (uint_least8_t)mask=0x1;break;
         case 'b':
         case 'B':
-            (uint_least8_t*)pPort = ports.portAB.portB;
+            (uint_least8_t*)*pPort = ports.portAB.portB;
             (uint_least8_t)mask=0x1;break;
         case 'd':
         case 'D':
-            (uint_least16_t*)pPort = ports.portD;
+            (uint_least16_t*)*pPort = ports.portD;
             (uint_least16_t)mask=0x1;break;
         default: 
             ans--;
@@ -173,15 +179,15 @@ int bitToggle(int n,char port)
     {
         case 'a':
         case 'A':
-            (uint_least8_t*)pPort = ports.portAB.portA;
+            (uint_least8_t*)*pPort = ports.portAB.portA;
             (uint_least8_t)mask=0x1;break;
         case 'b':
         case 'B':
-            (uint_least8_t*)pPort = ports.portAB.portB;
+            (uint_least8_t*)*pPort = ports.portAB.portB;
             (uint_least8_t)mask=0x1;break;
         case 'd':
         case 'D':
-            (uint_least16_t*)pPort = ports.portD;
+            (uint_least16_t*)*pPort = ports.portD;
             (uint_least16_t)mask=0x1;break;
         default: 
             ans++;
