@@ -55,7 +55,7 @@ typedef union
     }portAB;
     uint_least16_t portD;
 }portABD_t;
-portABD_t ports;
+static portABD_t ports;
 
 /*****************************************************************************/
 int bitSet(int n,char port)
