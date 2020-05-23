@@ -14,15 +14,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "portABD.h"
 
 /*
- * Se pide escribir una librería que permita emular el funcionamiento de los puertos A, B
-y D. A y B son dos puertos de 8 bits, configurables tanto de entrada como de salida. D
-tiene 16 y es simplemente un alias para los puertos A y B juntos, siendo el B el menos
-significativo.
+ * 
  */
-int main(int argc, char** argv) {
+typedef union
+{
+    struct portAB
+    {
+    uint_least8_t portA;
+    uint_least8_t portB;
+    }portAB;
+    uint_least16_t portD;
+}portABD_t;
+extern portABD_t ports;
 
+int main() 
+{
+    ports.portD = 0xF000;
+    printf("PORTD %x\n",ports.portD);
+    printf("%x\n",ports.portD);
+    int a=bitSet(3,'b');
+    printf("ERRORS %d\n",a);
+    printf("PORTD %x\n",ports.portD);
+    printf("PORTA %x\n",ports.portAB.portA);
+    printf("PORTB %x\n",ports.portAB.portB);
+        
+   
     return (EXIT_SUCCESS);
 }
-
