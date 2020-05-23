@@ -194,3 +194,110 @@ int bitToggle(int n,char port)
     }
     return ans;
 }
+/******************************************************************************/
+int maskOn (uint16_t msk,char port)
+{
+	int ans=0;
+
+	if ((msk>0xff)&&((port=='a')||(port=='b')||(port=='A')||(port=='B')))
+	{
+		++ans;
+	}
+	else
+	{
+		if ((port=='b')||(port=='B'))
+		{
+			msk=msk<<8;
+		}
+		switch (port)
+		{
+			case 'a':
+			case 'A':
+			case 'b':
+			case 'B':
+			case 'd':
+			case 'D':
+			{
+				ports.portD|=msk;
+				break;
+			}
+			default:
+			{	
+				++ans;
+			}
+		}
+	}
+	return ans;
+}
+/******************************************************************************/
+int maskOff (uint16_t msk, char port)
+{
+	int ans=0;
+	if ((msk>0xff)&&((port=='a')||(port=='b')||(port=='A')||(port=='B')))
+	{
+		++ans;
+	}
+	else
+	{
+		if ((port=='b')||(port=='B'))
+		{
+			msk=msk<<8;
+		}
+		msk=~msk;
+		switch (port)
+		{
+			case 'a':
+			case 'A':
+			case 'b':
+			case 'B':
+			case 'd':
+			case 'D':
+			{
+				ports.portD&=msk;
+				break;
+			}
+			default:
+			{	
+				++ans;
+			}
+		}
+	}
+	return ans;
+
+}
+/*****************************************************************************/	
+int maskToggle (uint16_t msk,char port)
+{
+	int ans=0;
+
+	if ((msk>0xff)&&((port=='a')||(port=='b')||(port=='A')||(port=='B')))
+	{
+		++ans;
+	}
+	else
+	{
+		if ((port=='b')||(port=='B'))
+		{
+			msk=msk<<8;
+		}
+		switch (port)
+		{
+			case 'a':
+			case 'A':
+			case 'b':
+			case 'B':
+			case 'd':
+			case 'D':
+			{
+				ports.portD^=msk;
+				break;
+			}
+			default:
+			{	
+				++ans;
+			}
+		}
+	}
+	return ans;
+}
+
