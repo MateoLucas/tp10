@@ -53,9 +53,7 @@ int bitSet(int n,char port)
                 break;
             case 'd':
             case 'D':           
-                printf("mask $%d\n",mask1);
                 mask1<<=n;
-                printf("mask $%d\n",mask1);
                 ports.portD |= mask1;
                 break;
             default: 
