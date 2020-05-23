@@ -22,17 +22,17 @@ typedef union
     }portAB;
     uint_least16_t portD;
 }portABD_t;
-static portABD_t ports;
+portABD_t ports;
+
 
 /*****************************************************************************/
 int bitSet(int n,char port)
 {
-    uint_least8_t mask = 0x1;
+    uint_least8_t mask = 0x01;
+    uint_least16_t mask1 = 0x0001;
     int ans = 0;
-    for(int i = 1;i<n;i++)
-    {
-        mask<<=1;
-    }
+  
+    
     if(SIZE_ERROR(n,port))
     {
         ans++;
@@ -43,22 +43,20 @@ int bitSet(int n,char port)
         {
             case 'a':
             case 'A':
+                mask<<=n;
                 ports.portAB.portA|=mask;
                 break;
             case 'b':
             case 'B':
+                mask<<=n;
                 ports.portAB.portB|=mask;
                 break;
             case 'd':
-            case 'D':
-            
-                (uint_least16_t)mask;
-                mask=0x01;
-                for(int i = 1;i<n;i++)
-                {
-                    mask<<=1;
-                }
-                ports.portD |= mask;
+            case 'D':           
+                printf("mask $%d\n",mask1);
+                mask1<<=n;
+                printf("mask $%d\n",mask1);
+                ports.portD |= mask1;
                 break;
             default: 
                 ans++;
@@ -69,7 +67,8 @@ int bitSet(int n,char port)
 /******************************************************************************/
 int bitClr(int n,char port)
 {
-    int mask;
+    uint_least8_t mask = 0xFE;
+    uint_least16_t mask1 = 0xFFFE;
     int ans = 0;
     if(SIZE_ERROR(n,port))
     {
@@ -81,17 +80,15 @@ int bitClr(int n,char port)
         {
             case 'a':
             case 'A':
-                mask=0xE;
                 for(int i = 1;i<n;i++)
                 {
-                    mask<<=1;
-                    mask +=1;
+                    mask<<=n;
+                    mask +=n;
                 }
                 ports.portAB.portA=(ports.portAB.portA|mask);
                 break;
             case 'b':
             case 'B':
-                mask=0xE;
                 for(int i = 1;i<n;i++)
                 {
                     mask<<=1;
@@ -101,15 +98,12 @@ int bitClr(int n,char port)
                 break;
             case 'd':
             case 'D':
-            
-                (uint_least16_t)mask;
-                mask=0xFE;
                 for(int i = 1;i<n;i++)
                 {
-                    mask<<=1;
-                    mask +=1;
+                    mask1<<=1;
+                    mask1 +=1;
                 }
-                ports.portD &= mask;
+                ports.portD &= mask1;
                 break;
             default: 
                 ans++;
@@ -120,12 +114,9 @@ int bitClr(int n,char port)
 /*****************************************************************************/
 int bitGet(int n,char port)
 {
-    uint_least8_t mask=0x1,ans = 0;
-    for(int i = 1;i<n;i++)//acomodo la mascara
-    {
-        mask<<=1;
-    }
-   
+    uint_least8_t mask=0x01;
+    uint_least16_t mask1 = 0x0001;
+    int ans = 0;
     
     if(SIZE_ERROR(n,port))//me aseguro que el numero de bit este contenido en el QUE PASA SI sizeof(void*pPort) 
     {                               //puerto.
@@ -137,33 +128,32 @@ int bitGet(int n,char port)
         {
             case 'a':
             case 'A':
+                mask<<=n;
                 ans = (ports.portAB.portA&mask);
                 break;
             case 'b':
             case 'B':
+                mask<<=n;
                 ans=(ports.portAB.portB&mask);
                 break;
             case 'd':
             case 'D':
-                (uint_least16_t)mask;
-                mask=0x01;
-                for(int i = 1;i<n;i++)
-                {
-                    mask<<=1;
-                }
-                ans = ports.portD&mask;
+                mask1<<=n;
+                ans = ports.portD&mask1;
                 break;
             default: 
                 ans--;
             
         }
-    return ans; //ans<0 -> error | ans>0 -> encendido | ans == 0 -> apagado.
+    
     }
+    return ans; //ans<0 -> error | ans>0 -> encendido | ans == 0 -> apagado.
 }
 /******************************************************************************/
 int bitToggle(int n,char port)
 {
-    int mask;
+    uint_least8_t mask=0xFE;
+    uint_least16_t mask1 = 0xFFFE;
     int ans = 0;
     if(SIZE_ERROR(n,port))
     {
@@ -175,32 +165,30 @@ int bitToggle(int n,char port)
         {
             case 'a':
             case 'A':
-                mask=0xE;
                 for(int i = 1;i<n;i++)
                 {
                     mask<<=1;
+                    mask +=1;
                 }
                 ports.portAB.portA=(ports.portAB.portA^mask);
                 break;
             case 'b':
             case 'B':
-                mask=0xE;
                 for(int i = 1;i<n;i++)
                 {
                     mask<<=1;
+                    mask +=1;
                 }
                 ports.portAB.portB^=mask;
                 break;
             case 'd':
             case 'D':
-            
-                (uint_least16_t)mask;
-                mask=0xFE;
                 for(int i = 1;i<n;i++)
                 {
-                    mask<<=1;
+                    mask1<<=1;
+                    mask1+=1;
                 }
-                ports.portD ^= mask;
+                ports.portD ^= mask1;
                 break;
             default: 
                 ans++;
