@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-#define SIZE_ERROR(n,port) ((port=='a'&&n>7)||(port=='A'&&n>7)||(port=='b'&&n>7)||(port=='B'&&n>7)||(port=='d'&&n>15)||(port=='D'&&n>15))
+#define SIZE_ERROR(n,port) ((port=='a'&&n>7)||(port=='A'&&n>7)||(port=='b'&&n>7)||(port=='B'&&n>7)||(port=='d'&&n>15)||(port=='D'&&n>15)||(n<0))
 
 typedef union
 {
@@ -78,12 +78,12 @@ int bitClr(int n,char port)
         {
             case 'a':
             case 'A':
-                for(int i = 1;i<n;i++)
+                for(int i = 1 ;i<n; i++)
                 {
-                    mask<<=n;
-                    mask +=n;
+                    mask<<=1;
+                    mask +=1;
                 }
-                ports.portAB.portA=(ports.portAB.portA|mask);
+                ports.portAB.portA&=mask;
                 break;
             case 'b':
             case 'B':
@@ -92,7 +92,7 @@ int bitClr(int n,char port)
                     mask<<=1;
                     mask +=1;
                 }
-                ports.portAB.portB|=mask;
+                ports.portAB.portB&=mask;
                 break;
             case 'd':
             case 'D':
@@ -150,8 +150,8 @@ int bitGet(int n,char port)
 /******************************************************************************/
 int bitToggle(int n,char port)
 {
-    uint_least8_t mask=0xFE;
-    uint_least16_t mask1 = 0xFFFE;
+    uint_least8_t mask=0x01;
+    uint_least16_t mask1 = 0x0001;
     int ans = 0;
     if(SIZE_ERROR(n,port))
     {
@@ -163,29 +163,17 @@ int bitToggle(int n,char port)
         {
             case 'a':
             case 'A':
-                for(int i = 1;i<n;i++)
-                {
-                    mask<<=1;
-                    mask +=1;
-                }
-                ports.portAB.portA=(ports.portAB.portA^mask);
+                mask<<=n;
+                ports.portAB.portA=(mask^ports.portAB.portA);
                 break;
             case 'b':
             case 'B':
-                for(int i = 1;i<n;i++)
-                {
-                    mask<<=1;
-                    mask +=1;
-                }
+                mask<<=n;
                 ports.portAB.portB^=mask;
                 break;
             case 'd':
             case 'D':
-                for(int i = 1;i<n;i++)
-                {
-                    mask1<<=1;
-                    mask1+=1;
-                }
+                mask1<<=n;
                 ports.portD ^= mask1;
                 break;
             default: 
