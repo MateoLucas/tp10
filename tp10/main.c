@@ -11,36 +11,61 @@
  * Created on May 19, 2020, 1:38 PM
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include "portABD.h"
-
-/*
- * 
- */
-typedef union
+int main ()
 {
-    struct portAB
-    {
-    uint_least8_t portA;
-    uint_least8_t portB;
-    }portAB;
-    uint_least16_t portD;
-}portABD_t;
-extern portABD_t ports;
-
-int main() 
-{
-    ports.portD = 0xF000;
-    printf("PORTD %x\n",ports.portD);
-    printf("%x\n",ports.portD);
-    int a=bitSet(3,'b');
-    printf("ERRORS %d\n",a);
-    printf("PORTD %x\n",ports.portD);
-    printf("PORTA %x\n",ports.portAB.portA);
-    printf("PORTB %x\n",ports.portAB.portB);
-        
-   
-    return (EXIT_SUCCESS);
+	printf("Ingrese una tecla \n");
+	int e,c,k;
+	e=0;
+	c=0;
+	k=0;
+	do
+	{	
+		printf("PORT A:");
+		for (int i=7;i>=0;--i)
+		{
+			k=bitGet(i,'a');
+			printf("%d",k);
+		}
+		printf("\n");
+		c = getchar();
+		clean_buffer(500);
+		if (('0'<=c)&&(c<='7'))
+		{
+			c-='0';
+			e=bitSet(c,'a');
+		}
+		else
+		{
+			switch (c)
+			{
+				
+				case 't':
+				{
+					e=maskToggle(MSK,'a');
+					break;
+				}
+				case 'c':
+				{
+					e=maskOff(MSK,'a');
+					break;
+				}
+				case 's':
+				{
+					e=maskOn(MSK,'a');
+					break;
+				}
+				default:
+				{
+					if (c!='q')
+					{
+						printf("Ingrese una tecla valida\n");
+					}
+				}
+			}
+		}
+	}
+	while (c!='q');
+	printf("Programa finalizado\n");
+	return 0;
 }
+
