@@ -133,7 +133,10 @@ int main() {
 
 
 void test_bitGet(int esperado, int actual)
-{//hola
+{
+    static int n=0;
+    n++;
+    printf("newsimpletest test %d\n",n);
     if(ports.portD==esperado)
         printf(SUCCESS_MESSAGE);
     else
