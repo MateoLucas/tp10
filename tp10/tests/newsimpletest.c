@@ -133,7 +133,7 @@ int main() {
 
 
 void test_bitGet(int esperado, int actual)
-{
+{//hola
     if(ports.portD==esperado)
         printf(SUCCESS_MESSAGE);
     else
