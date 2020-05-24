@@ -166,7 +166,7 @@ int bitGet(int n,char port)
         }
     
     }
-    if(ans<0)
+    if(ans>0)
     {
         ans=1;
     }
