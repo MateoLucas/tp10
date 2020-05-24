@@ -25,7 +25,7 @@ typedef union
     }portAB;
     uint_least16_t portD;
 }portABD_t;
-static portABD_t ports;
+portABD_t ports;
 
 
 /*****************************************************************************/
@@ -165,6 +165,10 @@ int bitGet(int n,char port)
             
         }
     
+    }
+    if(ans<0)
+    {
+        ans=1;
     }
     return ans; //ans<0 -> error | ans>0 -> encendido | ans == 0 -> apagado.
 }
