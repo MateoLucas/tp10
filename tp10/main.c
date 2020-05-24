@@ -10,61 +10,83 @@
  *
  * Created on May 19, 2020, 1:38 PM
  */
-
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdint.h>
+#include "portABD.h"
+#include"clean_buffer.h"
+#define MSK 0xff
 int main ()
 {
 	printf("Ingrese una tecla \n");
-	int e,c,k;
-	e=0;
-	c=0;
-	k=0;
+	int error=0,chr=0,bit=0;
 	do
 	{	
 		printf("PORT A:");
 		for (int i=7;i>=0;--i)
 		{
-			k=bitGet(i,'a');
-			printf("%d",k);
+			bit=bitGet(i,'a');
+                        if(bit<0)
+                        {
+                            error++;
+                        }
+			printf("%d",bit);
 		}
 		printf("\n");
-		c = getchar();
+		chr = getchar();
 		clean_buffer(500);
-		if (('0'<=c)&&(c<='7'))
+		if (('0'<=chr)&&(chr<='7'))
 		{
-			c-='0';
-			e=bitSet(c,'a');
+			chr-='0';
+			if(bitSet(chr,'a')!=0)
+                        {
+                            error++;
+                        }
 		}
 		else
 		{
-			switch (c)
+			switch (chr)
 			{
 				
 				case 't':
 				{
-					e=maskToggle(MSK,'a');
+					if(maskToggle(MSK,'a')!=0)
+                                        {
+                                            error++;
+                                        }
 					break;
 				}
 				case 'c':
 				{
-					e=maskOff(MSK,'a');
+					if(maskOff(MSK,'a')!=0)
+                                        {
+                                            error++;
+                                        }
 					break;
 				}
 				case 's':
 				{
-					e=maskOn(MSK,'a');
+					if(maskOn(MSK,'a')!=0)
+                                        {
+                                            error++;
+                                        }
 					break;
 				}
 				default:
 				{
-					if (c!='q')
+					if (chr!='q')
 					{
 						printf("Ingrese una tecla valida\n");
 					}
 				}
 			}
 		}
+                if(error>0)
+                {
+                    printf("Se detectaron %d errores.\n",error);
+                }
 	}
-	while (c!='q');
+	while (chr!='q');
 	printf("Programa finalizado\n");
 	return 0;
 }
