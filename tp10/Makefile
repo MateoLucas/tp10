@@ -42,13 +42,16 @@
 #     CND_PACKAGE_PATH_${CONF}   path to package (current configuration)
 #
 # NOCDDL
-TP10: main.o portABD.o
-		gcc main.o portABD.o -o TP10 -Wall -g
+TP10: main.o portABD.o clean_buffer.o
+		gcc main.o portABD.o clean_buffer.o -o TP10 -Wall -g
 main.o: main.c 
 		gcc -c main.c -Wall
 
 portABD.o:portABD.c
 		 gcc -c portABD.c -Wall
+
+clean_buffer.o:clean_buffer.c
+		gcc -c clean_buffer.c -Wall
 
 
 clean: 
